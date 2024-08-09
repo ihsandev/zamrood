@@ -1,9 +1,14 @@
+import Footer from "./_components/footer";
+import Navbar from "./_components/navbar";
+
 const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      {/* Header */}
+      <header>
+        <Navbar />
+      </header>
       <main>{children}</main>
-      {/* Footer */}
+      <Footer />
     </>
   );
 };

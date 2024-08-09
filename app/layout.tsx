@@ -1,24 +1,28 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import "yet-another-react-lightbox/styles.css";
+import type { Metadata } from "next";
 import { Unbounded, Albert_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
+import { QCProvider } from "@/components/providers/query-client";
 
 const unbounded = Unbounded({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-unbounded",
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 const albert_sans = Albert_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-albert-sans",
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 const signature = localFont({
-  src: "../public/fonts/Thesignature.ttf",
+  src: "../public/fonts/Thesignature.otf",
   display: "swap",
   variable: "--font-signature",
 });
@@ -29,6 +33,9 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  icons: {
+    icon: "./logo_colored.svg",
+  },
 };
 
 export default function RootLayout({
@@ -37,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html className="scroll-smooth" lang="en">
       <body
         className={cn(
           unbounded.variable,
@@ -45,7 +52,7 @@ export default function RootLayout({
           signature.variable
         )}
       >
-        {children}
+        <QCProvider>{children}</QCProvider>
       </body>
     </html>
   );

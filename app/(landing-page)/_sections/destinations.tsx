@@ -4,6 +4,7 @@ import { useProducts } from "@/hooks/useProducts";
 import { DestinationCard } from "../_components/destination-card";
 import { ExploreButton } from "../_components/explore-button";
 import { Title } from "../_components/title";
+import Loading from "@/components/loading";
 
 export const Destinations = () => {
   const { data, isFetching } = useProducts({ queryKey: ["fetch-products"] });
@@ -20,44 +21,56 @@ export const Destinations = () => {
             <ExploreButton />
           </div>
         </div>
-        <div className="mt-10 flex flex-col justify-between gap-y-20 w-full">
-          {highlight?.map((product) => (
-            <DestinationCard
-              key={product.itinerary_id}
-              images={product.related_galleries}
-              title={product.itinerary_name}
-              organizer={product.partner_name}
-              description={product.itinerary_short_description}
-              discount={Number(
-                product.related_variant.itinerary_variant_disc_price
-              )}
-              price={Number(
-                product.related_variant.itinerary_variant_pub_price
-              )}
-              duration={product.itinerary_day}
-            />
-          ))}
-        </div>
-        <div className="flex overflow-x-auto space-x-4 mt-16 w-full">
-          {data?.slice(0, 4).map((product) => (
-            <DestinationCard
-              direction="col"
-              key={product.itinerary_id}
-              images={product.related_galleries}
-              title={product.itinerary_name}
-              organizer={product.partner_name}
-              urlDetail={`/destination/${product.itinerary_slug}`}
-              description={product.itinerary_short_description}
-              discount={Number(
-                product.related_variant.itinerary_variant_disc_price
-              )}
-              price={Number(
-                product.related_variant.itinerary_variant_pub_price
-              )}
-              duration={product.itinerary_day}
-            />
-          ))}
-        </div>
+        {isFetchHighligh ? (
+          <div className="mt-6">
+            <Loading />
+          </div>
+        ) : (
+          <div className="mt-10 flex flex-col justify-between gap-y-20 w-full">
+            {highlight?.map((product) => (
+              <DestinationCard
+                key={product.itinerary_id}
+                images={product.related_galleries}
+                title={product.itinerary_name}
+                organizer={product.partner_name}
+                description={product.itinerary_short_description}
+                discount={Number(
+                  product.related_variant.itinerary_variant_disc_price
+                )}
+                price={Number(
+                  product.related_variant.itinerary_variant_pub_price
+                )}
+                duration={product.itinerary_day}
+              />
+            ))}
+          </div>
+        )}
+        {isFetching ? (
+          <div className="mt-6">
+            <Loading />
+          </div>
+        ) : (
+          <div className="flex overflow-x-auto space-x-4 mt-16 w-full">
+            {data?.slice(0, 4).map((product) => (
+              <DestinationCard
+                direction="col"
+                key={product.itinerary_id}
+                images={product.related_galleries}
+                title={product.itinerary_name}
+                organizer={product.partner_name}
+                urlDetail={`/destination/${product.itinerary_slug}`}
+                description={product.itinerary_short_description}
+                discount={Number(
+                  product.related_variant.itinerary_variant_disc_price
+                )}
+                price={Number(
+                  product.related_variant.itinerary_variant_pub_price
+                )}
+                duration={product.itinerary_day}
+              />
+            ))}
+          </div>
+        )}
         <div className="flex justify-center md:justify-end mt-12">
           <ExploreButton />
         </div>
